@@ -15,8 +15,7 @@ RANGE = 'raw_data!A1:J1'
 VALUE_INPUT_OPTION = 'USER_ENTERED'
 INSERT_DATA_OPTION = 'INSERT_ROWS'
 
-# Test command
-COMMAND = ['echo', '17555,TELUS Mobility,"Calgary, AB",2020-03-01T17:52:23.389793Z,6.933137608358674,19.357,320311972.901293,3303546.43512686,,70.73.101.36']
+COMMAND = ['speedtest-cli', '--csv']
 
 
 def get_credentials():
