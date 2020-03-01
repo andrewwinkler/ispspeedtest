@@ -17,7 +17,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1a-wVlpRJYVamcDs-SX2MpfW26teERmuKC3YUVXx80Yg'
 RANGE = 'raw_data!A1:J1'
 VALUE_INPUT_OPTION = 'USER_ENTERED'
-INSERT_DATA_OPTION = 'INSERT_ROWS'
+INSERT_DATA_OPTION = 'OVERWRITE'
 
 COMMAND = ['speedtest-cli', '--csv']
 
