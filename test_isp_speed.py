@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 
 import csv
-import os.path
+import os
 import pickle
 import subprocess
 
 from googleapiclient import discovery
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+CREDENTIALS_PATH = os.path.join(__location__, 'credentials.json')
+TOKEN_PATH = os.path.join(__location__, 'token.pickle')
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1a-wVlpRJYVamcDs-SX2MpfW26teERmuKC3YUVXx80Yg'
@@ -21,8 +25,8 @@ COMMAND = ['speedtest-cli', '--csv']
 def get_credentials():
     credentials = None
 
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists(TOKEN_PATH):
+        with open(TOKEN_PATH, 'rb') as token:
             credentials = pickle.load(token)
 
     # If there are no (valid) credentials available, let the user log in.
@@ -30,10 +34,10 @@ def get_credentials():
         if credentials and credentials.expired and credentials.refresh_token:
             credentials.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_PATH, SCOPES)
             credentials = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
+        with open(TOKEN_PATH, 'wb') as token:
             pickle.dump(credentials, token)
 
     return credentials
