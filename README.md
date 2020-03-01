@@ -1,6 +1,11 @@
 # ISP Speed Test
 
-#### **Installation**
+### **Requirements**
+
+- Python 3
+- `speedtest-cli`
+
+### **Installation**
 
 ```
 git clone https://github.com/andrewwinkler/ispspeedtest.git && cd ispspeedtest
@@ -12,7 +17,7 @@ pip install google-auth-oauthlib
 
 Save the OAuth 2.0 `credentials.json` file from [Google APIs Credentials](https://console.developers.google.com/apis/credentials) into `ispseedtest`
 
-#### **Use**
+### **Use**
 
 Run `./test_isp_speed.py`
 
