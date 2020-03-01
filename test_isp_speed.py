@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+import csv
 import os.path
 import pickle
+import subprocess
 
 from googleapiclient import discovery
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -9,9 +11,12 @@ from google.auth.transport.requests import Request
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1a-wVlpRJYVamcDs-SX2MpfW26teERmuKC3YUVXx80Yg'
-RANGE = 'data!A1:J1'
+RANGE = 'raw_data!A1:J1'
 VALUE_INPUT_OPTION = 'USER_ENTERED'
 INSERT_DATA_OPTION = 'INSERT_ROWS'
+
+# Test command
+COMMAND = ['echo', '17555,TELUS Mobility,"Calgary, AB",2020-03-01T17:52:23.389793Z,6.933137608358674,19.357,320311972.901293,3303546.43512686,,70.73.101.36']
 
 
 def get_credentials():
@@ -35,27 +40,19 @@ def get_credentials():
     return credentials
 
 
+def get_speed_data():
+    data = subprocess.run(COMMAND, stdout=subprocess.PIPE).stdout.decode('UTF-8')
+    data = csv.reader([data], delimiter=',')
+    return [row for row in data]
+
+
 def main():
     service = discovery.build('sheets', 'v4', credentials=get_credentials())
 
     value_range_body = {
         'range': RANGE,
         'majorDimension': 'ROWS',
-        'values': [
-            # Test Data
-            [
-                '4637',
-                'Cybera',
-                'Calgary, AB',
-                '2020-03-01T06:27:04.394843Z',
-                7.184957987705407,
-                20.401,
-                324357305.3332974,
-                3314835.0984985107,
-                '',
-                '0.0.0.0',
-            ]
-        ]
+        'values': get_speed_data()
     }
 
     request = service.spreadsheets().values().append(
